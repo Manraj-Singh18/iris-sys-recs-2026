@@ -4,9 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.4.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.10"
+gem "rails", "~> 8.1"
 
-gem 'activesupport', '~> 8.1', '>= 8.1.2'
 
 gem 'activerecord', '~> 8.1', '>= 8.1.2'
 
