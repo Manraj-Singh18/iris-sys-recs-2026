@@ -12,11 +12,11 @@ services:
     networks:
       - mysql-network
 
-  rails:
+  rails: 
     build:
       context: .
       dockerfile: Dockerfile
-    
+    image: iris-sys-recs-2026-rails:latest
     expose:
       - "8080"
     command: >
@@ -25,16 +25,52 @@ services:
       bin/rails db:prepare &&
       bundle exec rails server -b 0.0.0.0
       "
-
     depends_on:
       - mysql
     environment:
       PORT: 8080
       DATABASE_HOST: mysql
-      MYSQL_USER: root
-      MYSQL_PASSWORD: admin
+      MYSQL_USER: ${USERNAME_MYSQL_DB}
+      MYSQL_PASSWORD: ${PASSWORD_MYSQL_DB}
     networks:
       - mysql-network
+
+  rails-2:
+    image: iris-sys-recs-2026-rails:latest
+    expose:
+      - "8080"
+    command: >
+      bash -c "
+      bundle exec rails server -b 0.0.0.0
+      "
+    depends_on:
+      - mysql
+    environment:
+      PORT: 8080
+      DATABASE_HOST: mysql
+      MYSQL_USER: ${USERNAME_MYSQL_DB}
+      MYSQL_PASSWORD: ${PASSWORD_MYSQL_DB}
+    networks:
+      - mysql-network
+    
+  rails-3:
+    image: iris-sys-recs-2026-rails:latest
+    expose:
+      - "8080"
+    command: >
+      bash -c "
+      bundle exec rails server -b 0.0.0.0
+      "
+    depends_on:
+      - mysql
+    environment:
+      PORT: 8080
+      DATABASE_HOST: mysql
+      MYSQL_USER: ${USERNAME_MYSQL_DB}
+      MYSQL_PASSWORD: ${PASSWORD_MYSQL_DB}
+    networks:
+      - mysql-network
+    
   
   nginx:
     build:
@@ -44,6 +80,8 @@ services:
     - "80:80"
     depends_on:
     - rails
+    - rails-2
+    - rails-3
     networks:
     - mysql-network
 
