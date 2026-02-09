@@ -17,5 +17,5 @@ RUN gem install bundler
 RUN bundle install --verbose
 
 
-EXPOSE 3000
+EXPOSE 8080
 

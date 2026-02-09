@@ -13,9 +13,12 @@ services:
       - mysql-network
 
   rails:
-    build: .
-    ports:
-      - "3000:3000"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    expose:
+      - "8080"
     command: >
       bash -c "
       until mysqladmin ping -h mysql --silent; do sleep 0.5; done &&
@@ -26,11 +29,25 @@ services:
     depends_on:
       - mysql
     environment:
+      PORT: 8080
       DATABASE_HOST: mysql
       MYSQL_USER: root
       MYSQL_PASSWORD: admin
     networks:
       - mysql-network
+  
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
+    ports:
+    - "80:80"
+    depends_on:
+    - rails
+    networks:
+    - mysql-network
+
+
 
 networks:
   mysql-network:
